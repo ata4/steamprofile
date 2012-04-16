@@ -32,7 +32,7 @@ if (version_compare(PHP_VERSION, PHP_VERSION_REQUIRED, '<')) {
     exit();
 }
 
-require_once 'lib/error_exceptions.php';
+require_once 'lib/error_exceptions.func.php';
 require_once 'lib/steamprofile/ajax/SteamProfileXMLProxyApp.class.php';
 
 // start application

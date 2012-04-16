@@ -19,7 +19,7 @@
  */
 // check for required PHP version 
 define('PHP_VERSION_REQUIRED', '5.0.0');
-// commend out in productive environments
+// commend out or set to FALSE in productive environments
 define('DEBUG', true);
 
 if (version_compare(PHP_VERSION, PHP_VERSION_REQUIRED, '<')) {
@@ -27,7 +27,7 @@ if (version_compare(PHP_VERSION, PHP_VERSION_REQUIRED, '<')) {
     exit(sprintf('PHP %s is not supported (required: PHP %s or higher)', PHP_VERSION, PHP_VERSION_REQUIRED));
 }
 
-require_once 'lib/error_exceptions.php';
+require_once 'lib/error_exceptions.func.php';
 require_once 'lib/steamprofile/image/SteamProfileImageApp.class.php';
 
 // start application

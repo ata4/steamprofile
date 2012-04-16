@@ -18,7 +18,7 @@
  * 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once 'lib/steamprofile/image/GDImage.class.php';
+require_once 'lib/gd/GDImage.class.php';
 require_once 'lib/steamprofile/net/HttpProfileLoader.class.php';
 
 class SteamProfileImage extends GDImage {

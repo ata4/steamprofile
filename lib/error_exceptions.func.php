@@ -17,12 +17,16 @@
  * 	You should have received a copy of the GNU General Public License
  * 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 // throw exceptions for php errors
 function exception_error_handler($errno, $errstr, $errfile, $errline) {
     throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
 }
 
 set_error_handler("exception_error_handler");
+
+// avoid tainted error messages
+ini_set('html_errors', false);
 
 // set error reporting level
 if (defined('DEBUG') && DEBUG) {
