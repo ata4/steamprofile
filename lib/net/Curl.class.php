@@ -74,6 +74,14 @@ class Curl {
     public function setConnectTimeout($iTimeout) {
         $this->setOption(CURLOPT_CONNECTTIMEOUT, $iTimeout);
     }
+    
+    public function setFollowLocation($bFollow) {
+        $this->setOption(CURLOPT_FOLLOWLOCATION, $bFollow);
+    }
+    
+    public function setMaxRedirects($iMaxRedirs) {
+        $this->setOption(CURLOPT_MAXREDIRS, $iMaxRedirs);
+    }
 
     public function getHttpCode() {
         return $this->getInfo(CURLINFO_HTTP_CODE);

@@ -28,10 +28,12 @@ class HttpLoader extends Curl {
         $aCURLVersion = curl_version();
         $this->setUserAgent($sApp . ' (' . $sExtra . '; PHP ' . PHP_VERSION . '; cURL ' . $aCURLVersion['version'] . ')');
 
-        // setting CURLOPT_FOLLOWLOCATION in safe_mode will raise a warning
-        if (ini_get('safe_mode') == 'Off' || ini_get('safe_mode') === 0) {
-            $this->setOption(CURLOPT_FOLLOWLOCATION, true);
-            $this->setOption(CURLOPT_MAXREDIRS, 3);
+        // setting CURLOPT_FOLLOWLOCATION in safe_mode could raise a warning,
+        // catch it
+        try {
+            $this->setFollowLocation(TRUE);
+            $this->setMaxRedirects(3);
+        } catch (Exception $e) {
         }
     }
 
