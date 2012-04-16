@@ -1,0 +1,181 @@
+.steamprofile * {
+	font-size: 10px;
+	font-family: tahoma,Arial,Helvetica,sans-serif;
+	margin: 0;
+	padding: 0;
+	line-height: 1.3em;
+}
+
+.steamprofile {
+	position: relative;
+	width: 246px;
+	height: 48px;
+	background: #3A3A3A url(background.png);
+	overflow: hidden;
+	margin: 4px;
+}
+
+.steamprofile .sp-bg-game,
+.steamprofile .sp-bg-fade {
+	background-position: right center;
+	height: 48px;
+}
+
+.steamprofile .sp-bg-fade {
+	background-repeat: repeat-y;
+	background-image: url(background_fade.png);
+}
+
+.steamprofile .sp-bg-game {
+	background-repeat: no-repeat;
+}
+
+.steamprofile .sp-badge,
+.steamprofile .sp-loading,
+.steamprofile .sp-error {
+	padding: 4px;
+}
+
+.steamprofile a {
+	text-decoration: none;
+}
+
+.steamprofile img  {
+	border: none;
+}
+
+.steamprofile .sp-loading {
+	margin: 8px;
+	padding-left: 40px;
+	color: #606060;
+	font-size: 20px;
+	background: transparent url(loading.gif) no-repeat left center;
+}
+
+.steamprofile .sp-error {
+	margin: 4px 8px;
+	padding-left: 22px;
+	color: #cc4444;
+	font-size: 12px;
+	background: transparent url(error.png) no-repeat left center;
+}
+
+.steamprofile:hover {
+	background-color: #313131;
+}
+
+.steamprofile .sp-avatar {
+	float: left;
+	width: 40px;
+	height: 40px;
+	margin-right: 4px;
+}
+
+.steamprofile .sp-avatar img  {
+	margin: 4px;
+}
+
+.steamprofile .sp-info a {
+	font-weight: bold;
+}
+
+.steamprofile .sp-in-game {
+	color: #8bc53f;
+}
+
+.steamprofile .sp-in-game a {
+	color: #b1fb50;
+}
+
+.steamprofile .sp-online {
+	color: #6f9fc8;
+}
+
+.steamprofile .sp-online a {
+	color: #8ecbff;
+}
+
+.steamprofile .sp-online .sp-avatar,
+.steamprofile .sp-in-game .sp-avatar,
+.steamprofile .sp-offline .sp-avatar {
+	background: transparent url(iconholder.png) no-repeat 0 0;
+}
+
+.steamprofile .sp-online .sp-avatar {
+	background-position: -40px 0;
+}
+
+.steamprofile .sp-in-game .sp-avatar {
+	background-position: -80px 0;
+}
+
+.steamprofile .sp-offline .sp-info,
+.steamprofile .sp-offline .sp-info a {
+	color: #898989;
+}
+
+.steamprofile .sp-extra {
+	display: block;
+	position: absolute;
+	z-index: 1;
+	right: 0;
+	top: 0;
+	background-color: #202020;
+	height: 50px;
+}
+
+.steamprofile .sp-handle {
+	width: 16px;
+	height: 50px;
+	display: block;
+	position: absolute;
+	z-index: 2;
+	left: -16px;
+	top: -1px;
+	background: url(handle.png) right center no-repeat;
+}
+
+.steamprofile .sp-handle:hover {
+	cursor: pointer;
+}
+
+.steamprofile .sp-content {
+	white-space: nowrap;
+	height: 50px;
+	padding: 6px;
+	padding-top: 16px;
+	display: none;
+}
+
+.steamprofile .sp-content ul {
+	list-style: none;
+	float: left;
+}
+
+.steamprofile .sp-content li {
+	height: 16px;
+	padding-left: 18px;
+	margin: 2px;
+}
+
+.steamprofile .sp-content a:hover {
+	text-decoration: underline;
+	color: #ffffff;
+}
+
+.steamprofile .sp-addfriend,
+.steamprofile .sp-joingame,
+.steamprofile .sp-viewitems {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	background: transparent url(icons.png) no-repeat 0 0;
+}
+
+.steamprofile .sp-addfriend {
+	background-position: -16px 0;
+}
+
+.steamprofile .sp-joingame {
+	background-position: -32px 0;
+}
