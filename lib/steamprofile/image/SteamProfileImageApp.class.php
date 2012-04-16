@@ -17,6 +17,13 @@
  * 	You should have received a copy of the GNU General Public License
  * 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+require_once 'lib/Application.class.php';
+require_once 'lib/util/FileConfig.class.php';
+require_once 'lib/util/GPCConfig.class.php';
+require_once 'lib/net/HttpHeader.class.php';
+require_once 'lib/steamprofile/SteamProfileApp.class.php';
+
 class SteamProfileImageApp extends SteamProfileApp implements Application {
 
     public function run() {
@@ -54,10 +61,10 @@ class SteamProfileImageApp extends SteamProfileApp implements Application {
 
                 $sLayout = $sDefaultLayout;
             }
-
+            
             $sLayoutDir = "$sImageBase/$sLayout";
 
-            ClassPath::add("$sLayoutDir/lib");
+            include "$sLayoutDir/lib/SteamProfileImage.class.php";
 
             try {
                 // do we have a cached version of the profile image?

@@ -17,6 +17,14 @@
  * 	You should have received a copy of the GNU General Public License
  * 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+require_once 'lib/Application.class.php';
+require_once 'lib/util/FileConfig.class.php';
+require_once 'lib/util/GPCConfig.class.php';
+require_once 'lib/net/HttpHeader.class.php';
+require_once 'lib/steamprofile/SteamProfileApp.class.php';
+require_once 'lib/steamprofile/net/HttpProfileLoader.class.php';
+
 class SteamProfileXMLProxyApp extends SteamProfileApp implements Application {
 
     public function run() {

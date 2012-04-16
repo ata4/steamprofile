@@ -32,13 +32,8 @@ if (version_compare(PHP_VERSION, PHP_VERSION_REQUIRED, '<')) {
     exit();
 }
 
-// load error exception handling
 require_once 'lib/error_exceptions.php';
-
-// load autoincluder
-require_once 'lib/ClassPath.class.php';
-ClassPath::add('lib');
-ClassPath::add('ajax/lib');
+require_once 'lib/steamprofile/ajax/SteamProfileXMLProxyApp.class.php';
 
 // start application
 $App = new SteamProfileXMLProxyApp();
