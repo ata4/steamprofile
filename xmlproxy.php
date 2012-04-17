@@ -17,24 +17,18 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-// check for required PHP version 
-define('PHP_VERSION_REQUIRED', '5.0.0');
-// commend out or set to FALSE in productive environments
-define('DEBUG', FALSE);
 
-if (version_compare(PHP_VERSION, PHP_VERSION_REQUIRED, '<')) {
-    $sResponse = sprintf('PHP %s is not supported (required: PHP %s or higher)', PHP_VERSION, PHP_VERSION_REQUIRED);
-
+try {
+    require_once 'lib/main.php';
+} catch (Exception $e) {
     require_once 'lib/steamprofile/ajax/XMLError.php';
     
     // print XML-formatted error
-    $oError = new XMLError($sResponse);
+    $oError = new XMLError($e);
     $oError->build();
-    
     exit();
 }
 
-require_once 'lib/error_exceptions.php';
 require_once 'lib/steamprofile/ajax/SteamProfileXMLProxyApp.php';
 
 // start application
