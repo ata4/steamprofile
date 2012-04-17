@@ -28,7 +28,7 @@ abstract class SteamProfileApp {
     }
     
     public static function getVersion() {
-        return "2.2.0";
+        return "2.1.1";
     }
     
     public static function getUserAgent() {
