@@ -6,11 +6,11 @@ About SteamProfile
 Installation and Usage
 ----------------------
 
-Extract archive to desired location on your webserver. The directory *cache* is used for caching, therefore it must be read- and writable for the webserver.
+Extract archive to desired location on your webserver. The directory `cache` is used for caching, therefore it must be read- and writable for the webserver.
 
-You can change configurations for the XML proxy in *xmlproxy.cfg*. For client configuration and template editing, open *ajax/steamprofile.xml*.
+You can change configurations for the XML proxy in `xmlproxy.cfg`. For client configuration and template editing, open `ajax/steamprofile.xml`.
 
-See the files in the "examples" folder for examples and instructions for proper embedding into your website.
+See the files in the `examples` folder for examples and instructions for proper embedding into your website.
 
 Requirements
 ------------
