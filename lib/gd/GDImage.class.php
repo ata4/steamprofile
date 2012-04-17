@@ -26,6 +26,42 @@
 class GDImage {
 
     protected $rImage;
+    private $bAntiAlias = true;
+    private $bAlphaBlending = true;
+    private $bFullAlpha = false;
+
+    public static function getInfo() {
+        return gd_info();
+    }
+    
+    public static function isAvailable() {
+        return extension_loaded('gd');
+    }
+
+    protected static function convertBoundsToDim($aBounds) {
+        $iMinX = min(array($aBounds[0], $aBounds[2], $aBounds[4], $aBounds[6]));
+        $iMaxX = max(array($aBounds[0], $aBounds[2], $aBounds[4], $aBounds[6]));
+        $iMinY = min(array($aBounds[1], $aBounds[3], $aBounds[5], $aBounds[7]));
+        $iMaxY = max(array($aBounds[1], $aBounds[3], $aBounds[5], $aBounds[7]));
+
+        return array(
+            'left' => ($iMinX >= -1) ? -abs($iMinX + 1) : abs($iMinX + 2),
+            'top' => abs($iMinY),
+            'width' => $iMaxX - $iMinX,
+            'height' => $iMaxY - $iMinY
+        );
+    }
+
+    protected static function splitColor($iColor) {
+        $iColor = abs($iColor);
+
+        $aColors = array();
+        $aColors['a'] = ($iColor & 0xff000000) >> 24;
+        $aColors['r'] = ($iColor & 0xff0000) >> 16;
+        $aColors['g'] = ($iColor & 0xff00) >> 8;
+        $aColors['b'] = $iColor & 0xff;
+        return $aColors;
+    }
 
     public function __construct($iWidth = null, $iHeight = null) {
         // make sure the GD extension is loaded
@@ -37,17 +73,40 @@ class GDImage {
             $this->create($iWidth, $iHeight != null ? $iHeight : $iWidth);
         }
     }
-
-    public static function isAvailable() {
-        return extension_loaded('gd') && function_exists('gd_info');
-    }
-
+    
     public function create($iWidth, $iHeight) {
         $this->rImage = imagecreatetruecolor($iWidth, $iHeight);
     }
 
     public function destroy() {
-        imagedestroy($this->rImage);
+        if ($this->rImage != null) {
+            try {
+                // avoid further attempts to close this image by setting the
+                // hander to null
+                $rImage = $this->rImage;
+                $this->rImage = null;
+
+                return @imagedestroy($rImage);
+            } catch (Exception $ex) {
+                $this->rImage = null;
+
+                return false;
+            }
+        }
+
+        return false;
+    }
+
+    protected function replace(GDImage $image) {
+        try {
+            @imagedestroy($this->rImage);
+        } catch (Exception $e) {
+            
+        }
+
+        $this->rImage = $image->rImage;
+        $this->bAlphaBlending = $image->bAlphaBlending;
+        $this->bFullAlpha = $image->bFullAlpha;
     }
 
     public function getWidth() {
@@ -60,10 +119,6 @@ class GDImage {
 
     public function getHandle() {
         return $this->rImage;
-    }
-
-    public function getInfo() {
-        return gd_info();
     }
 
     public function loadFont($sFontFile) {
@@ -80,50 +135,52 @@ class GDImage {
         }
     }
 
-    public function drawTextFt($sText, $sFontFile, $fSize, $fAngle, $iColor, $iX, $iY, $aExtra = array()) {
+    public function drawTextFT($sText, $sFontFile, $fSize, $fAngle, $iColor, $iX, $iY, $aExtra = array()) {
         return imagefttext($this->rImage, $fSize, $fAngle, $iX, $iY, $iColor, $sFontFile, $sText, $aExtra);
     }
 
-    public function drawTextTtf($sText, $sFontFile, $fSize, $fAngle, $iColor, $iX, $iY) {
+    public function drawTextTTF($sText, $sFontFile, $fSize, $fAngle, $iColor, $iX, $iY) {
         return imagettftext($this->rImage, $fSize, $fAngle, $iX, $iY, $iColor, $sFontFile, $sText);
     }
 
-    public function getTtfTextBounds($sText, $sFontFile, $fSize, $fAngle) {
+    public function getTTFTextBounds($sText, $sFontFile, $fSize, $fAngle) {
         return imagettfbbox($fSize, $fAngle, $sFontFile, $sText);
     }
 
-    public function getTtfTextDim($sText, $sFontFile, $fSize, $fAngle) {
-        return self::convertBoundsToDim($this->getTtfTextBounds($sText, $sFontFile, $fSize, $fAngle));
+    public function getTTFTextDim($sText, $sFontFile, $fSize, $fAngle) {
+        return self::convertBoundsToDim($this->getTTFTextBounds($sText, $sFontFile, $fSize, $fAngle));
     }
 
-    public function getFtTextBounds($sText, $sFontFile, $fSize, $fAngle) {
+    public function getFTTextBounds($sText, $sFontFile, $fSize, $fAngle) {
         return imageftbbox($fSize, $fAngle, $sFontFile, $sText);
     }
 
-    public function getFtTextDim($sText, $sFontFile, $fSize, $fAngle) {
-        return self::convertBoundsToDim($this->getFtTextBounds($sText, $sFontFile, $fSize, $fAngle));
+    public function getFTTextDim($sText, $sFontFile, $fSize, $fAngle) {
+        return self::convertBoundsToDim($this->getFTTextBounds($sText, $sFontFile, $fSize, $fAngle));
     }
 
-    private static function convertBoundsToDim($aBounds) {
-        $iMinX = min(array($aBounds[0], $aBounds[2], $aBounds[4], $aBounds[6]));
-        $iMaxX = max(array($aBounds[0], $aBounds[2], $aBounds[4], $aBounds[6]));
-        $iMinY = min(array($aBounds[1], $aBounds[3], $aBounds[5], $aBounds[7]));
-        $iMaxY = max(array($aBounds[1], $aBounds[3], $aBounds[5], $aBounds[7]));
-
-        return array(
-            'left' => ($iMinX >= -1) ? -abs($iMinX + 1) : abs($iMinX + 2),
-            'top' => abs($iMinY),
-            'width' => $iMaxX - $iMinX,
-            'height' => $iMaxY - $iMinY
-        );
+    public function draw() {
+        
     }
 
     public function drawRectangle($iX1, $iY1, $iX2, $iY2, $iColor) {
         return imagerectangle($this->rImage, $iX1, $iY1, $iX2, $iY2, $iColor);
     }
 
+    public function drawFilledRectangle($iX1, $iY1, $iX2, $iY2, $iColor) {
+        return imagefilledrectangle($this->rImage, $iX1, $iY1, $iX2, $iY2, $iColor);
+    }
+
     public function drawLine($iX1, $iY1, $iX2, $iY2, $iColor) {
         return imageline($this->rImage, $iX1, $iY1, $iX2, $iY2, $iColor);
+    }
+
+    public function drawEllipse($iX, $iY, $iWidth, $iHeight, $iColor) {
+        return imageellipse($this->rImage, $iX, $iY, $iWidth, $iHeight, $iColor);
+    }
+
+    public function drawFilledEllipse($iX, $iY, $iWidth, $iHeight, $iColor) {
+        return imagefilledellipse($this->rImage, $iX, $iY, $iWidth, $iHeight, $iColor);
     }
 
     public function drawPixel($iX1, $iY1, $iColor) {
@@ -147,27 +204,134 @@ class GDImage {
     }
 
     public function copyResized(GDImage $Image, $iX1, $iX2, $iY1, $iY2, $iDstWidth, $iDstHeight, $iWidth, $iHeight) {
-        return imagecopyresized($this->rImage, $Image->getHandle(), $iX1, $iX2, $iY1, $iY2, $iDstWidth, $iDstHeight, $iWidth, $iHeight);
+        return imagecopyresized($this->rImage, $Image->rImage, $iX1, $iX2, $iY1, $iY2, $iDstWidth, $iDstHeight, $iWidth, $iHeight);
     }
 
     public function copyResampled(GDImage $Image, $iX1, $iX2, $iY1, $iY2, $iDstWidth, $iDstHeight, $iWidth, $iHeight) {
-        return imagecopyresampled($this->rImage, $Image->getHandle(), $iX1, $iX2, $iY1, $iY2, $iDstWidth, $iDstHeight, $iWidth, $iHeight);
+        return imagecopyresampled($this->rImage, $Image->rImage, $iX1, $iX2, $iY1, $iY2, $iDstWidth, $iDstHeight, $iWidth, $iHeight);
+    }
+
+    public function scale($iWidthNew, $iHeightNew, $bResample = false) {
+        $iWidth = $this->getWidth();
+        $iHeight = $this->getHeight();
+
+        if ($iWidthNew == $iWidth && $iHeightNew == $iHeight) {
+            // yeah, sure
+            return;
+        }
+
+        $scaledImage = new GDImage($iWidthNew, $iHeightNew);
+        $scaledImage->setAntiAlias($this->isAntiAlias());
+        $scaledImage->setAlphaBlending($this->isAlphaBlending());
+        $scaledImage->set8BitAlpha($this->is8BitAlpha());
+
+        if ($bResample) {
+            $scaledImage->copyResampled($this, 0, 0, 0, 0, $iWidthNew, $iHeightNew, $iWidth, $iHeight);
+        } else {
+            $scaledImage->copyResized($this, 0, 0, 0, 0, $iWidthNew, $iHeightNew, $iWidth, $iHeight);
+        }
+
+        $this->replace($scaledImage);
+    }
+
+    public function scaleByFactor($fFactor, $bResample = false) {
+        if ($fFactor == 1.0) {
+            // haha, very funny
+            return;
+        }
+
+        if ($fFactor <= 0) {
+            // nope.avi
+            throw new InvalidArgumentException("Factor must be greater than 0");
+        }
+
+        $iWidthNew = round($this->getWidth() * $fFactor);
+        $iHeightNew = round($this->getHeight() * $fFactor);
+
+        $this->scale($iWidthNew, $iHeightNew, $bResample);
+    }
+
+    public function flip($iMode) {
+        $iWidth = $this->getWidth();
+        $iHeight = $this->getHeight();
+
+        $src_x = 0;
+        $src_y = 0;
+        $src_width = $iWidth;
+        $src_height = $iHeight;
+
+        switch ($iMode) {
+            case 1: //vertical
+                $src_y = $iHeight - 1;
+                $src_height = -$iHeight;
+                break;
+
+            case 2: //horizontal
+                $src_x = $iWidth - 1;
+                $src_width = -$iWidth;
+                break;
+
+            case 3: //both
+                $src_x = $iWidth - 1;
+                $src_y = $iHeight - 1;
+                $src_width = -$iWidth;
+                $src_height = -$iHeight;
+                break;
+
+            default:
+                return;
+        }
+
+        $imgdest = new GDImage($iWidth, $iHeight);
+        $imgdest->setAntiAlias($this->isAntiAlias());
+        $imgdest->setAlphaBlending($this->isAlphaBlending());
+        $imgdest->set8BitAlpha($this->is8BitAlpha());
+        $imgdest->copyResampled($this, 0, 0, $src_x, $src_y, $iWidth, $iHeight, $src_width, $src_height);
+
+        $this->replace($imgdest);
     }
 
     public function setAntiAlias($bAntiAlias) {
-        return imageantialias($this->rImage, $bAntiAlias);
+        $this->bAntiAlias = $bAntiAlias;
+
+        // only available if PHP is compiled with the bundled version of the
+        // GD library
+        if (function_exists('imageantialias')) {
+            return imageantialias($this->rImage, $this->bAntiAlias);
+        } else {
+            return false;
+        }
     }
 
-    public function setAlphaBlending($bAlpha) {
-        imagealphablending($this->rImage, $bAlpha);
+    public function isAntiAlias() {
+        return $this->bAntiAlias;
     }
 
-    public function setSaveAlpha($bSaveAlpha) {
-        imagesavealpha($this->rImage, $bSaveAlpha);
+    public function setAlphaBlending($bAlphaBlending) {
+        imagealphablending($this->rImage, $this->bAlphaBlending = $bAlphaBlending);
+    }
+
+    public function isAlphaBlending() {
+        return $this->bAlphaBlending;
+    }
+
+    public function setSaveFullAlpha($bFullAlpha) {
+        if ($bFullAlpha) {
+            $this->setAlphaBlending(false);
+        }
+        imagesavealpha($this->rImage, $this->bFullAlpha = $bFullAlpha);
+    }
+
+    public function isSaveFullAlpha() {
+        return $this->bFullAlpha;
     }
 
     public function getColor($iR, $iG, $iB, $bAntiAlias = true) {
         return imagecolorallocate($this->rImage, $iR, $iG, $iB) * ($bAntiAlias ? 1 : -1);
+    }
+
+    public function getColorAlpha($iR, $iG, $iB, $iA, $bAntiAlias = true) {
+        return imagecolorallocatealpha($this->rImage, $iR, $iG, $iB, $iA) * ($bAntiAlias ? 1 : -1);
     }
 
     public function getColorArray($aColor, $bAntiAlias = true) {
@@ -186,11 +350,15 @@ class GDImage {
         return imagecolorat($this->rImage, $iX, $iY);
     }
 
-    public function loadGd($sFile) {
+    public function setColorTransparent($iColor) {
+        imagecolortransparent($this->rImage, $iColor);
+    }
+
+    public function loadGD($sFile) {
         $this->rImage = imagecreatefromgd($sFile);
     }
 
-    public function loadGd2($sFile) {
+    public function loadGD2($sFile) {
         $this->rImage = imagecreatefromgd2($sFile);
     }
 
@@ -231,6 +399,22 @@ class GDImage {
         return imagegif($this->rImage, $sOutputFile);
     }
 
+    public function toImage($sFormat, $sOutputFile = null, $iQuality = 80) {
+        switch (strtolower($sFormat)) {
+            case 'png':
+                return $this->toPng($sOutputFile);
+                
+            case 'jpg':
+            case 'jpeg':
+                return $this->toJpeg($sOutputFile, $iQuality);
+                
+            case 'gif':
+                return $this->toGif($sOutputFile);
+                
+            default:
+                throw new IllegalArgumentException("Unknown image format");
+        }
+    }
 }
 
 ?>

@@ -17,14 +17,39 @@
  * 	You should have received a copy of the GNU General Public License
  * 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 require_once 'lib/gd/GDImage.class.php';
 
 class ErrorImage extends GDImage {
 
-    public function __construct($sMessage) {
-        parent::__construct(246, 48);
-        $sMessage = wordwrap(strip_tags($sMessage), 40, "\n", true);
+    public function __construct($message, $iWidth = null, $iHeight = null) {
+        $iFont = 2;
+
+        if ($message instanceof Exception) {
+            $message = $message->getMessage();
+            
+            if (defined('DEBUG') && DEBUG) {
+                $message .= "\n" . $message->getTraceAsString();
+            }
+        }
+
+        // calculate image size
+        if ($iWidth == null || $iHeight != null) {
+            $aMessage = explode("\n", $message);
+            $iFontWidth = imagefontwidth($iFont);
+            $iFontHeight = imagefontheight($iFont);
+
+            foreach ($aMessage as $sLine) {
+                $iHeight += $iFontHeight + 1;
+                $iMessageWidth = $iFontWidth * (strlen($sLine) + 1);
+                if ($iMessageWidth > $iWidth) {
+                    $iWidth = $iMessageWidth;
+                }
+            }
+
+            $iHeight += 8;
+        }
+
+        parent::__construct($iWidth, $iHeight);
 
         $iFontColor = $this->getColor(255, 0, 0);
         $iBorderColor = $this->getColor(255, 0, 0);
@@ -33,7 +58,7 @@ class ErrorImage extends GDImage {
 
         $this->fill(0, 0, $iBGColor);
         $this->drawRectangle(0, 0, $this->getWidth() - 1, $this->getHeight() - 1, $iBorderColor);
-        $this->drawText($sMessage, 2, $iFontColor, $iPadding, $iPadding);
+        $this->drawText($message, $iFont, $iFontColor, $iPadding, $iPadding);
     }
 
 }

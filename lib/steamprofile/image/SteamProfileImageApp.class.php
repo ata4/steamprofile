@@ -22,6 +22,8 @@ require_once 'lib/Application.class.php';
 require_once 'lib/util/FileConfig.class.php';
 require_once 'lib/util/GPCConfig.class.php';
 require_once 'lib/net/HttpHeader.class.php';
+require_once 'lib/gd/GDImage.class.php';
+require_once 'lib/gd/ErrorImage.class.php';
 require_once 'lib/steamprofile/SteamProfileApp.class.php';
 
 class SteamProfileImageApp extends SteamProfileApp implements Application {

@@ -117,7 +117,7 @@ class SteamProfileImage extends GDImage {
         $this->loadPng($this->aThemeFiles['background']);
 
         // enable alpha
-        $this->setSaveAlpha(true);
+        $this->setSaveFullAlpha(true);
 
         try {
             // load XML data
@@ -502,7 +502,7 @@ class SteamProfileImage extends GDImage {
 
         // enable alpha
         $this->setAlphaBlending(true);
-        $this->setSaveAlpha(true);
+        $this->setSaveFullAlpha(true);
 
         // draw error icon
         $errorIcon = new GDImage();
