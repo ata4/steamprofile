@@ -99,11 +99,9 @@ class SteamProfileXMLProxyApp extends SteamProfileApp implements Application {
                 $oXmlFile->readStdOut();
             }
         } catch (Exception $e) {
-            $oHeader = new HTTPHeader();
-            $oHeader->setResponse('Content-Type', 'application/xml');
-
-            echo '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>';
-            echo '<response><error><![CDATA[' . $e->getMessage() . ']]></error></response>';
+            // print XML-formatted error
+            $oError = new XMLError($e);
+            $oError->build();
         }
     }
 

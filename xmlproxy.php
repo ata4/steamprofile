@@ -25,10 +25,12 @@ define('DEBUG', true);
 if (version_compare(PHP_VERSION, PHP_VERSION_REQUIRED, '<')) {
     $sResponse = sprintf('PHP %s is not supported (required: PHP %s or higher)', PHP_VERSION, PHP_VERSION_REQUIRED);
 
+    require_once 'lib/steamprofile/ajax/XMLError.class.php';
+    
     // print XML-formatted error
-    header('Content-Type: application/xml');
-    echo '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>';
-    echo '<response><error><![CDATA[' . $sResponse . ']]></error></response>';
+    $oError = new XMLError($sResponse);
+    $oError->build();
+    
     exit();
 }
 
