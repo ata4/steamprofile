@@ -18,7 +18,7 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once 'lib/util/Config.class.php';
+require_once 'lib/util/Config.php';
 
 class ArrayConfig extends Config {
 

@@ -18,13 +18,13 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once 'lib/Application.class.php';
-require_once 'lib/util/FileConfig.class.php';
-require_once 'lib/util/GPCConfig.class.php';
-require_once 'lib/net/HTTPHeader.class.php';
-require_once 'lib/gd/GDImage.class.php';
-require_once 'lib/gd/ErrorImage.class.php';
-require_once 'lib/steamprofile/SteamProfileApp.class.php';
+require_once 'lib/Application.php';
+require_once 'lib/util/FileConfig.php';
+require_once 'lib/util/GPCConfig.php';
+require_once 'lib/net/HTTPHeader.php';
+require_once 'lib/gd/GDImage.php';
+require_once 'lib/gd/ErrorImage.php';
+require_once 'lib/steamprofile/SteamProfileApp.php';
 
 class SteamProfileImageApp extends SteamProfileApp implements Application {
 
@@ -66,7 +66,7 @@ class SteamProfileImageApp extends SteamProfileApp implements Application {
             
             $sLayoutDir = "$sImageBase/$sLayout";
 
-            include "$sLayoutDir/SteamProfileImage.class.php";
+            include "$sLayoutDir/SteamProfileImage.php";
 
             try {
                 // do we have a cached version of the profile image?

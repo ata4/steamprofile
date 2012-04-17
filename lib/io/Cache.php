@@ -18,8 +18,8 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once 'lib/io/File.class.php';
-require_once 'lib/io/CacheFile.class.php';
+require_once 'lib/io/File.php';
+require_once 'lib/io/CacheFile.php';
 
 class Cache {
 

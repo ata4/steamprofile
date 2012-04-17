@@ -18,8 +18,8 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once 'lib/steam/SteamID.class.php';
-require_once 'lib/io/Cache.class.php';
+require_once 'lib/steam/SteamID.php';
+require_once 'lib/io/Cache.php';
 
 abstract class SteamProfileApp {
 

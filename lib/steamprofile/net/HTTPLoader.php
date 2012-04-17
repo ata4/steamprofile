@@ -18,7 +18,7 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once 'lib/net/Curl.class.php';
+require_once 'lib/net/Curl.php';
 
 class HTTPLoader extends Curl {
 

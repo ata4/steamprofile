@@ -18,7 +18,7 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once 'lib/steamprofile/net/HTTPLoader.class.php';
+require_once 'lib/steamprofile/net/HTTPLoader.php';
 
 class HTTPProfileLoader extends HTTPLoader {
 

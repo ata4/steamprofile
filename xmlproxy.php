@@ -25,7 +25,7 @@ define('DEBUG', true);
 if (version_compare(PHP_VERSION, PHP_VERSION_REQUIRED, '<')) {
     $sResponse = sprintf('PHP %s is not supported (required: PHP %s or higher)', PHP_VERSION, PHP_VERSION_REQUIRED);
 
-    require_once 'lib/steamprofile/ajax/XMLError.class.php';
+    require_once 'lib/steamprofile/ajax/XMLError.php';
     
     // print XML-formatted error
     $oError = new XMLError($sResponse);
@@ -34,8 +34,8 @@ if (version_compare(PHP_VERSION, PHP_VERSION_REQUIRED, '<')) {
     exit();
 }
 
-require_once 'lib/error_exceptions.func.php';
-require_once 'lib/steamprofile/ajax/SteamProfileXMLProxyApp.class.php';
+require_once 'lib/error_exceptions.php';
+require_once 'lib/steamprofile/ajax/SteamProfileXMLProxyApp.php';
 
 // start application
 $App = new SteamProfileXMLProxyApp();

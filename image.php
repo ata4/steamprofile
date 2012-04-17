@@ -27,8 +27,8 @@ if (version_compare(PHP_VERSION, PHP_VERSION_REQUIRED, '<')) {
     exit(sprintf('PHP %s is not supported (required: PHP %s or higher)', PHP_VERSION, PHP_VERSION_REQUIRED));
 }
 
-require_once 'lib/error_exceptions.func.php';
-require_once 'lib/steamprofile/image/SteamProfileImageApp.class.php';
+require_once 'lib/error_exceptions.php';
+require_once 'lib/steamprofile/image/SteamProfileImageApp.php';
 
 // start application
 $App = new SteamProfileImageApp();

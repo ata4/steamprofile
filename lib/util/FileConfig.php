@@ -18,30 +18,27 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once 'lib/net/HTTPHeader.class.php';
+require_once 'lib/util/ArrayConfig.php';
 
-/**
- * XML error page generator
- *
- * @author Nico Bergemann <barracuda415 at yahoo.de>
- */
-class XMLError {
-    private $sMessage;
-    
-    public function __construct($msg) {
-        if ($msg instanceof Exception) {
-            $this->sMessage = $msg->getMessage();
+class FileConfig extends ArrayConfig {
+
+    private static $aInstances = array();
+    private $aConfig;
+
+    public static function getInstance($sConfigFile) {
+        $sKey = function_exists('hash') ? hash('md5', $sConfigFile) : md5($sConfigFile);
+
+        if (isset(self::$aInstances[$sKey])) {
+            return self::$aInstances[$sKey];
         } else {
-            $this->sMessage = $msg;
+            return self::$aInstances[$sKey] = new FileConfig($sConfigFile);
         }
     }
-    
-    public function build() {
-        $oHeader = new HTTPHeader();
-        $oHeader->setResponse('Content-Type', 'application/xml');
-        echo '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>';
-        echo '<response><error><![CDATA[' . $this->sMessage . ']]></error></response>';
+
+    protected function __construct($sConfigFile) {
+        parent::__construct(parse_ini_file($sConfigFile));
     }
+
 }
 
 ?>
