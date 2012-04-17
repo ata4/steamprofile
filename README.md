@@ -6,11 +6,11 @@ About SteamProfile
 Installation and Usage
 ----------------------
 
-Extract archive to desired location on your webserver. The directory _cache_ is used for caching, therefore it must be read- and writable for the web server process.
+Extract archive to desired location on your webserver. The directory *cache* is used for caching, therefore it must be read- and writable for the webserver.
 
-You can change configurations for the XML proxy in _xmlproxy.php_. For client configuration and template editing, open _steamprofile.xml_.
+You can change configurations for the XML proxy in *xmlproxy.cfg*. For client configuration and template editing, open *ajax/steamprofile.xml*.
 
-See example.html for examples and instructions for proper embedding into your website.
+See the files in the "examples" folder for examples and instructions for proper embedding into your website.
 
 Requirements
 ------------
@@ -43,12 +43,7 @@ Requirements
  * **minor problems:**
   * Internet Explorer 7 & Internet Explorer 8 in compatibility mode:
    * "Loading..." is not displayed
-   * icons are not showing up
+   * Icons are not showing up
  * **major problems:**
   * Internet Explorer 6:
-   * unable to display transparent 32-bit PNG images
-   * slider menu unusable
-   * flawed layout
-   * annoys web developer
-   * causes cancer
-   * eats small babies
+   * Pretty much unusable
