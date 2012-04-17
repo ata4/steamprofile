@@ -66,7 +66,7 @@ class SteamProfileImageApp extends SteamProfileApp implements Application {
             
             $sLayoutDir = "$sImageBase/$sLayout";
 
-            include "$sLayoutDir/lib/SteamProfileImage.class.php";
+            include "$sLayoutDir/SteamProfileImage.class.php";
 
             try {
                 // do we have a cached version of the profile image?

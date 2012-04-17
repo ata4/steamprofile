@@ -502,7 +502,7 @@ class SteamProfileImage extends GDImage {
 
         // enable alpha
         $this->setAlphaBlending(true);
-        $this->setSaveFullAlpha(true);
+//        $this->setSaveFullAlpha(true);
 
         // draw error icon
         $errorIcon = new GDImage();

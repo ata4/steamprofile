@@ -316,9 +316,6 @@ class GDImage {
     }
 
     public function setSaveFullAlpha($bFullAlpha) {
-        if ($bFullAlpha) {
-            $this->setAlphaBlending(false);
-        }
         imagesavealpha($this->rImage, $this->bFullAlpha = $bFullAlpha);
     }
 
