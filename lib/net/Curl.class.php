@@ -83,7 +83,7 @@ class Curl {
         $this->setOption(CURLOPT_MAXREDIRS, $iMaxRedirs);
     }
 
-    public function getHttpCode() {
+    public function getHTTPCode() {
         return $this->getInfo(CURLINFO_HTTP_CODE);
     }
 

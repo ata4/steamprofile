@@ -21,7 +21,7 @@
 require_once 'lib/Application.class.php';
 require_once 'lib/util/FileConfig.class.php';
 require_once 'lib/util/GPCConfig.class.php';
-require_once 'lib/net/HttpHeader.class.php';
+require_once 'lib/net/HTTPHeader.class.php';
 require_once 'lib/gd/GDImage.class.php';
 require_once 'lib/gd/ErrorImage.class.php';
 require_once 'lib/steamprofile/SteamProfileApp.class.php';
@@ -123,7 +123,7 @@ class SteamProfileImageApp extends SteamProfileApp implements Application {
         } catch (Exception $e) {
             // quite fatal error, try to render a fail-safe error image
             if ($bDebug || !GDImage::isAvailable()) {
-                $oHeader = new HttpHeader();
+                $oHeader = new HTTPHeader();
                 $oHeader->setResponse('Content-Type', 'text/plain');
                 echo $bDebug ? "$e\n" : $e->getMessage();
             } else {
@@ -134,7 +134,7 @@ class SteamProfileImageApp extends SteamProfileApp implements Application {
     }
 
     private function displayImage(File $oImageFile) {
-        $oHeader = new HttpHeader();
+        $oHeader = new HTTPHeader();
 
         if (!$oHeader->isModifiedSince($oImageFile->lastModified())) {
             $oHeader->setResponseCode(304);

@@ -21,9 +21,9 @@
 require_once 'lib/Application.class.php';
 require_once 'lib/util/FileConfig.class.php';
 require_once 'lib/util/GPCConfig.class.php';
-require_once 'lib/net/HttpHeader.class.php';
+require_once 'lib/net/HTTPHeader.class.php';
 require_once 'lib/steamprofile/SteamProfileApp.class.php';
-require_once 'lib/steamprofile/net/HttpProfileLoader.class.php';
+require_once 'lib/steamprofile/net/HTTPProfileLoader.class.php';
 
 class SteamProfileXMLProxyApp extends SteamProfileApp implements Application {
 
@@ -39,7 +39,7 @@ class SteamProfileXMLProxyApp extends SteamProfileApp implements Application {
             $iDownloaderTimeout = $oCommonConfig->getInteger('downloader.timeout', 10);
             $bXMLHttpRequestOnly = $oProxyConfig->getBoolean('proxy.check_header', true);
 
-            $oHeader = new HttpHeader();
+            $oHeader = new HTTPHeader();
 
             // response to XMLHttpRequest only
             if ($bXMLHttpRequestOnly && !$oHeader->isXMLHttpRequest()) {
@@ -58,7 +58,7 @@ class SteamProfileXMLProxyApp extends SteamProfileApp implements Application {
             if (!$oXmlFile->isCached()) {
                 try {
                     // initialize the downloader
-                    $oProfileLoader = new HttpProfileLoader($sXmlUrl, SteamProfileApp::AGENT, 'Ajax');
+                    $oProfileLoader = new HTTPProfileLoader($sXmlUrl, SteamProfileApp::getUserAgent(), 'Ajax');
                     $oProfileLoader->setTimeout($iDownloaderTimeout);
                     $oProfileLoader->setTrimExtra(true);
                     $oProfileLoader->setFilterCtlChars(true);
@@ -99,7 +99,7 @@ class SteamProfileXMLProxyApp extends SteamProfileApp implements Application {
                 $oXmlFile->readStdOut();
             }
         } catch (Exception $e) {
-            $oHeader = new HttpHeader();
+            $oHeader = new HTTPHeader();
             $oHeader->setResponse('Content-Type', 'application/xml');
 
             echo '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>';

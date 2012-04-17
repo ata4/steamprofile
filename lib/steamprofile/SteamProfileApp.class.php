@@ -23,9 +23,17 @@ require_once 'lib/io/Cache.class.php';
 
 abstract class SteamProfileApp {
 
-    const VERSION = "2.1.0";
-    const NAME = "SteamProfile";
-    const AGENT = "SteamProfile/2.1.0";
+    public static function getName() {
+        return "SteamProfile";
+    }
+    
+    public static function getVersion() {
+        return "2.2.0";
+    }
+    
+    public static function getUserAgent() {
+        return self::getName() . '/' . self::getVersion();
+    }
 
     private static $aValidLang = array(
         'danish',

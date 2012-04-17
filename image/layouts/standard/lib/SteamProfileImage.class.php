@@ -19,7 +19,7 @@
  */
 
 require_once 'lib/gd/GDImage.class.php';
-require_once 'lib/steamprofile/net/HttpProfileLoader.class.php';
+require_once 'lib/steamprofile/net/HTTPProfileLoader.class.php';
 
 class SteamProfileImage extends GDImage {
 
@@ -181,7 +181,7 @@ class SteamProfileImage extends GDImage {
         $iTimeout = $this->oCommonConfig->getInteger('downloader.timeout', 10);
 
         // load XML data
-        $XmlLoader = new HttpProfileLoader($sUrl, SteamProfileApp::AGENT, 'Image');
+        $XmlLoader = new HTTPProfileLoader($sUrl, SteamProfileApp::getUserAgent(), 'Image');
         $XmlLoader->setTimeout($iTimeout);
         $XmlLoader->setFilterCtlChars(true);
         $XmlLoader->setTrimExtra(false);
@@ -197,7 +197,7 @@ class SteamProfileImage extends GDImage {
         // do we already have a cached version of this image?
         if (!$cacheFile->isCached()) {
             $iTimeout = $this->oCommonConfig->getInteger('downloader.timeout', 10);
-            $imageLoader = new HttpLoader($sUrl, SteamProfileApp::AGENT, 'Image');
+            $imageLoader = new HTTPLoader($sUrl, SteamProfileApp::getUserAgent(), 'Image');
             $imageLoader->setTimeout($iTimeout);
             $imageLoader->setOutputFile($cacheFile->getPath());
             $imageLoader->start();
