@@ -19,6 +19,7 @@
  */
 
 require_once 'lib/gd/GDImage.class.php';
+require_once 'lib/steamprofile/image/SteamProfileImageException.class.php';
 require_once 'lib/steamprofile/net/HTTPProfileLoader.class.php';
 
 class SteamProfileImage extends GDImage {
