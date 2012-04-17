@@ -20,7 +20,7 @@
 // check for required PHP version 
 define('PHP_VERSION_REQUIRED', '5.0.0');
 // commend out or set to FALSE in productive environments
-define('DEBUG', TRUE);
+define('DEBUG', FALSE);
 
 if (version_compare(PHP_VERSION, PHP_VERSION_REQUIRED, '<')) {
     header('Content-Type: text/plain');
