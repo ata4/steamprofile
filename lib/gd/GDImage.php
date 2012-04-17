@@ -409,7 +409,7 @@ class GDImage {
                 return $this->toGif($sOutputFile);
                 
             default:
-                throw new IllegalArgumentException("Unknown image format");
+                throw new InvalidArgumentException("Unknown image format");
         }
     }
 }

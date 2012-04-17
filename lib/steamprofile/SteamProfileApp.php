@@ -81,7 +81,7 @@ abstract class SteamProfileApp {
 
             $sXmlUrl .= 'id/' . $sID;
         } else {
-            $sXmlUrl .= 'profiles/' . $oSteamID->getSteamComID();
+            $sXmlUrl .= 'profiles/' . $oSteamID->getSteamID64();
         }
 
         // add xml parameter so we get xml data (hopefully)

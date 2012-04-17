@@ -27,9 +27,10 @@
 class SteamID {
 
     private $sSteamID = '';
-    private $sSteamComID = '';
+    private $sSteamID64 = '';
 
-    const STEAMID64_BASE = '76561197960265728';
+    // 0x0110000100000000
+    const STEAMID64_U = '76561197960265728';
 
     public function __construct($sID) {
         // make sure the bcmath extension is loaded
@@ -37,15 +38,15 @@ class SteamID {
             throw new RuntimeException("BCMath extension required");
         }
 
-        if ($this->isValidSteamID($sID)) {
+        if ($this->isValidID($sID)) {
             $this->sSteamID = $sID;
-            $this->sSteamComID = $this->toSteamComID($sID);
-        } elseif ($this->isValidComID($sID)) {
+            $this->sSteamID64 = $this->toSteamID64($sID);
+        } elseif ($this->isValidID64($sID)) {
             $this->sSteamID = $this->toSteamID($sID);
-            $this->sSteamComID = $sID;
+            $this->sSteamID64 = $sID;
         } else {
             $this->sSteamID = '';
-            $this->sSteamComID = '';
+            $this->sSteamID64 = '';
         }
     }
 
@@ -53,64 +54,71 @@ class SteamID {
         return $this->sSteamID;
     }
 
-    public function getSteamComID() {
-        return $this->sSteamComID;
+    public function getSteamID64() {
+        return $this->sSteamID64;
     }
 
     public function isValid() {
         return $this->sSteamID != '';
     }
 
-    private function isValidSteamID($sSteamID) {
+    private function isValidID($sSteamID) {
         return preg_match('/^(STEAM_)?[0-5]:[0-9]:\d+$/i', $sSteamID);
     }
 
-    private function isValidComID($sSteamComID) {
+    private function isValidID64($sSteamID64) {
         // anything else than a number is invalid
         // (is_numeric() doesn't work for 64 bit integers)
-        if (!preg_match('/^\d+$/i', $sSteamComID)) {
+        if (!preg_match('/^\d+$/i', $sSteamID64)) {
             return false;
         }
 
         // the community id must be bigger than STEAMID64_BASE
-        if (bccomp(self::STEAMID64_BASE, $sSteamComID) == 1) {
+        if (bccomp(self::STEAMID64_U, $sSteamID64) == 1) {
             return false;
         }
-
-        // TODO: Upper limit?
 
         return true;
     }
 
-    private function toSteamComID($sSteamID) {
-        $aTMP = explode(':', $sSteamID);
-
-        $sServer = $aTMP[1];
-        $sAuth = $aTMP[2];
-
-        if (count($aTMP) == 3 && $sAuth != '0' && is_numeric($sServer) && is_numeric($sAuth)) {
-            $sComID = bcmul($sAuth, "2"); // multipy Auth-ID with 2
-            $sComID = bcadd($sComID, $sServer); // add Server-ID
-            $sComID = bcadd($sComID, self::STEAMID64_BASE); // add this odd long number
-            // It seems that PHP appends ".0000000000" at the end sometimes.
-            // I can't find a reason for this, so I'll have to take the dirty way...
-            $sComID = str_replace('.0000000000', '', $sComID);
-
-            return $sComID;
-        } else {
-            throw new RuntimeException("Unable to convert Steam-ID");
+    private function toSteamID64($sSteamID) {
+        $aID = explode(':', substr($sSteamID, 6));
+        
+        if (count($aID) != 3) {
+            throw new InvalidArgumentException("Invalid SteamID format");
         }
+
+        $sUniverse = $aID[0];
+        $sServer = $aID[1];
+        $sAuth = $aID[2];
+
+        if (!is_numeric($sUniverse) || !is_numeric($sServer) || !is_numeric($sAuth)) {
+            throw new InvalidArgumentException("Invalid SteamID format");
+        }
+
+        $sID64 = bcmul($sAuth, '2'); // multipy Auth-ID with 2
+        $sID64 = bcadd($sID64, $sServer); // add Server-ID
+        $sID64 = bcadd($sID64, self::STEAMID64_U); // add base ID
+        // It seems that PHP appends ".0000000000" at the end sometimes.
+        // I can't find a reason for this, so I'll have to take the dirty way...
+        $sID64 = str_replace('.0000000000', '', $sID64);
+
+        return $sID64;
     }
 
-    private function toSteamID($sSteamComID) {
-        $sServer = bcmod($sSteamComID, '2') == '0' ? '0' : '1';
-        $sCommID = bcsub($sSteamComID, $sServer);
-        $sCommID = bcsub($sCommID, self::STEAMID64_BASE);
-        $sAuth = bcdiv($sCommID, '2');
+    private function toSteamID($sSteamID64) {
+        if (!is_numeric($sSteamID64)) {
+            throw new InvalidArgumentException("Invalid SteamID64 format");
+        }
+        
+        $sUniverse = '0';
+        $sServer = bcmod($sSteamID64, '2') == '0' ? '0' : '1';
+        $sAuth = bcsub($sSteamID64, $sServer);
+        $sAuth = bcsub($sAuth, self::STEAMID64_U);
+        $sAuth = bcdiv($sAuth, '2');
 
-        return "STEAM_0:$sServer:$sAuth";
+        return "STEAM_$sUniverse:$sServer:$sAuth";
     }
 
 }
-
 ?>
