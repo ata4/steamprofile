@@ -22,12 +22,12 @@ require_once 'lib/steamprofile/net/HTTPLoader.php';
 
 class HTTPProfileLoader extends HTTPLoader {
 
-    private $bTrimExtra = false;
-    private $bFilterCtlChars = false;
+    private $bTrimExtra = FALSE;
+    private $bFilterCtlChars = FALSE;
 
     public function __construct($sUrl, $sApp, $sExtra) {
         parent::__construct($sUrl, $sApp, $sExtra);
-        $this->setReturnTransfer(true);
+        $this->setReturnTransfer(TRUE);
     }
 
     public function setTrimExtra($bTrimExtra) {
@@ -59,7 +59,7 @@ class HTTPProfileLoader extends HTTPLoader {
             $sEndToken = '</summary>';
             $iEndPos = strpos($content, $sEndToken);
 
-            if ($iEndPos !== false) {
+            if ($iEndPos !== FALSE) {
                 $content = substr($content, 0, $iEndPos + strlen($sEndToken));
                 $content.= "\n</profile>";
             }

@@ -168,13 +168,13 @@ class HTTPHeader {
         if (self::isValidHTTPCode($iCode)) {
             return $this->setResponse('HTTP/1.1 ' . self::getHTTPCodeString($iCode));
         } else {
-            return false;
+            return FALSE;
         }
     }
 
-    public function setResponse($sName, $sValue = null, $bReplace = true) {
+    public function setResponse($sName, $sValue = null, $bReplace = TRUE) {
         if (headers_sent()) {
-            return false;
+            return FALSE;
         } else {
             $sName = $this->formatKey($sName, '-');
 
@@ -185,7 +185,7 @@ class HTTPHeader {
                 self::$aResponseHeaders[$sName] = $sValue;
             }
 
-            return true;
+            return TRUE;
         }
     }
 
@@ -197,7 +197,7 @@ class HTTPHeader {
         return self::$aResponseHeaders;
     }
 
-    public function setRedirect($sTarget, $bRelative = true) {
+    public function setRedirect($sTarget, $bRelative = TRUE) {
         $sHost = $_SERVER['HTTP_HOST'];
         $sUri = $bRelative ? dirname($_SERVER['PHP_SELF']) : '';
 
@@ -220,14 +220,14 @@ class HTTPHeader {
 
         if ($sModifiedSet == null) {
             $this->setResponse('Last-Modified', $sModifiedActual);
-            return true;
+            return TRUE;
         }
 
         if ($sModifiedSet === $sModifiedActual) {
-            return false;
+            return FALSE;
         } else {
             $this->setResponse('Last-Modified', $sModifiedActual);
-            return true;
+            return TRUE;
         }
     }
 
@@ -236,9 +236,9 @@ class HTTPHeader {
 
         if ($sCurrentETag == null || $sCurrentETag !== $sETag) {
             $this->setResponse('ETag', $sETag);
-            return false;
+            return FALSE;
         } else {
-            return true;
+            return TRUE;
         }
     }
 

@@ -40,8 +40,8 @@ class HTTPLoader extends Curl {
     public function start() {
         $content = parent::start();
 
-        // false means cURL failed
-        if ($content === false) {
+        // FALSE means cURL failed
+        if ($content === FALSE) {
             throw new Exception('cURL error: ' . $this->getErrorMessage());
         }
 

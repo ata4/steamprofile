@@ -38,7 +38,7 @@ class SteamProfileXMLProxyApp extends SteamProfileApp implements Application {
             $iCacheLifetime = $oCommonConfig->getInteger('cache.lifetime', 600);
             $sCacheDir = $oCommonConfig->getString('cache.dir', 'cache');
             $iDownloaderTimeout = $oCommonConfig->getInteger('downloader.timeout', 10);
-            $bXMLHttpRequestOnly = $oProxyConfig->getBoolean('proxy.check_header', true);
+            $bXMLHttpRequestOnly = $oProxyConfig->getBoolean('proxy.check_header', TRUE);
 
             $oHeader = new HTTPHeader();
 
@@ -61,8 +61,8 @@ class SteamProfileXMLProxyApp extends SteamProfileApp implements Application {
                     // initialize the downloader
                     $oProfileLoader = new HTTPProfileLoader($sXmlUrl, SteamProfileApp::getUserAgent(), 'Ajax');
                     $oProfileLoader->setTimeout($iDownloaderTimeout);
-                    $oProfileLoader->setTrimExtra(true);
-                    $oProfileLoader->setFilterCtlChars(true);
+                    $oProfileLoader->setTrimExtra(TRUE);
+                    $oProfileLoader->setFilterCtlChars(TRUE);
 
                     $sXml = '';
 

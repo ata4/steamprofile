@@ -118,7 +118,7 @@ class SteamProfileImage extends GDImage {
         $this->loadPng($this->aThemeFiles['background']);
 
         // enable alpha
-        $this->setSaveFullAlpha(true);
+        $this->setSaveFullAlpha(TRUE);
 
         try {
             // load XML data
@@ -250,8 +250,8 @@ class SteamProfileImage extends GDImage {
         // load XML data
         $XmlLoader = new HTTPProfileLoader($sUrl, SteamProfileApp::getUserAgent(), 'Image');
         $XmlLoader->setTimeout($iTimeout);
-        $XmlLoader->setFilterCtlChars(true);
-        $XmlLoader->setTrimExtra(false);
+        $XmlLoader->setFilterCtlChars(TRUE);
+        $XmlLoader->setTrimExtra(FALSE);
         $sXml = $XmlLoader->start();
         $XmlLoader->close();
 
@@ -502,8 +502,8 @@ class SteamProfileImage extends GDImage {
         $this->loadPng($this->aThemeFiles['background']);
 
         // enable alpha
-        $this->setAlphaBlending(true);
-//        $this->setSaveFullAlpha(true);
+        $this->setAlphaBlending(TRUE);
+//        $this->setSaveFullAlpha(TRUE);
 
         // draw error icon
         $errorIcon = new GDImage();

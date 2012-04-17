@@ -58,7 +58,7 @@ abstract class SteamProfileApp {
         'thai'
     );
 
-    public function getProfileUrl($bLang = true) {
+    public function getProfileUrl($bLang = TRUE) {
         // load config
         $oGPCConfig = GPCConfig::getInstance('get');
 

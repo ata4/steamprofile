@@ -33,7 +33,7 @@ class SteamProfileImageApp extends SteamProfileApp implements Application {
 
         try {
             // get profile URL
-            $sXmlUrl = $this->getProfileUrl(false);
+            $sXmlUrl = $this->getProfileUrl(FALSE);
 
             // load config
             $oCommonConfig = FileConfig::getInstance('common.cfg');
@@ -44,7 +44,7 @@ class SteamProfileImageApp extends SteamProfileApp implements Application {
             $iCacheLifetime = $oCommonConfig->getInteger('cache.lifetime', 600);
             $sCacheDir = $oCommonConfig->getString('cache.dir', 'cache');
 
-            $bImageFallback = $oImageConfig->getString('image.fallback', true);
+            $bImageFallback = $oImageConfig->getString('image.fallback', TRUE);
             $sDefaultLayout = $oImageConfig->getString('image.layout.default', 'small');
             $sDefaultTheme = $oImageConfig->getString('image.theme.default', 'default');
             $sLayout = $oGPCConfig->getAlphanumString('layout', $sDefaultLayout);

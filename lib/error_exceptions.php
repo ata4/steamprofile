@@ -26,7 +26,7 @@ function exception_error_handler($errno, $errstr, $errfile, $errline) {
 set_error_handler("exception_error_handler");
 
 // avoid tainted error messages
-ini_set('html_errors', false);
+ini_set('html_errors', FALSE);
 
 // set error reporting level
 if (defined('DEBUG') && DEBUG) {

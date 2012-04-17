@@ -19,8 +19,8 @@
  */
 // check for required PHP version 
 define('PHP_VERSION_REQUIRED', '5.0.0');
-// commend out in productive environments
-define('DEBUG', true);
+// commend out or set to FALSE in productive environments
+define('DEBUG', FALSE);
 
 if (version_compare(PHP_VERSION, PHP_VERSION_REQUIRED, '<')) {
     $sResponse = sprintf('PHP %s is not supported (required: PHP %s or higher)', PHP_VERSION, PHP_VERSION_REQUIRED);
