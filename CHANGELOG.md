@@ -51,7 +51,7 @@
 * Added 'steamprofile.xml' for client-side configuration
 * Moved templates to steamprofile.xml
 * Added theme variable and automatic stylesheet loading
-* Fixed [http://code.google.com/p/steamprofile/issues/detail?id=1 Issue 1 - XML proxy not working with safe_mode/open_basedir]
+* Fixed Issue 1 - XML proxy not working with safe_mode/open_basedir
 * Fixed broken references to XML proxy when embedded in a page outside the base folder
 * Fixed some minor stylesheet problems
 
