@@ -44,8 +44,24 @@ class ArrayConfig extends Config {
         return isset($this->aConfig[$sKey]) ? $this->aConfig[$sKey] : $sDefault;
     }
 
-    public function getAlphanumString($sKey, $sDefault = '') {
-        return isset($this->aConfig[$sKey]) && ctype_alnum($this->aConfig[$sKey]) ? $this->aConfig[$sKey] : $sDefault;
+    public function getStringAlnum($sKey, $sDefault = '') {
+        $sString = $this->getString($sKey, $sDefault, $iMaxLen);
+        
+        if (!ctype_alnum($sString)) {
+            return $sDefault;
+        }
+        
+        return $sString;
+    }
+    
+    public function getStringFiltered($sKey, $sDefault = '', $iMaxLen = null, $sAllowedChars = 'a-z0-9-_. ') {
+        $sString = $this->getString($sKey, $sDefault, $iMaxLen);
+        
+        if (!preg_match("#^[$sAllowedChars]+$#i", $sString)) {
+            return $sDefault;
+        }
+        
+        return $sString;
     }
 
     public function getInteger($sKey, $iDefault = 0) {

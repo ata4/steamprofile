@@ -47,8 +47,8 @@ class SteamProfileImageApp extends SteamProfileApp implements Application {
             $bImageFallback = $oImageConfig->getString('image.fallback', TRUE);
             $sDefaultLayout = $oImageConfig->getString('image.layout.default', 'small');
             $sDefaultTheme = $oImageConfig->getString('image.theme.default', 'default');
-            $sLayout = $oGPCConfig->getAlphanumString('layout', $sDefaultLayout);
-            $sTheme = $oGPCConfig->getAlphanumString('theme', $sDefaultTheme);
+            $sLayout = $oGPCConfig->getStringAlnum('layout', $sDefaultLayout);
+            $sTheme = $oGPCConfig->getStringAlnum('theme', $sDefaultTheme);
 
             // init cache
             $oImageCache = new Cache($sCacheDir, $iCacheLifetime, 'png');

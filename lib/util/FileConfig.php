@@ -23,7 +23,6 @@ require_once 'lib/util/ArrayConfig.php';
 class FileConfig extends ArrayConfig {
 
     private static $aInstances = array();
-    private $aConfig;
 
     public static function getInstance($sConfigFile) {
         $sKey = function_exists('hash') ? hash('md5', $sConfigFile) : md5($sConfigFile);
