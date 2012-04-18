@@ -45,7 +45,7 @@
 * Default cache time set to 10 min.
 * Optimized Java-Script code
 * Added a client-side cache for duplicate profiles within one page
-* Profile IDs are now stored in the "title" attribute of the <div> so they're invisible to clients with deactivated Java-Script 
+* Profile IDs are now stored in the "title" attribute of the &lt;div&gt; so they're invisible to clients with deactivated Java-Script 
 
 ### 2.0 Beta 3
 * Added 'steamprofile.xml' for client-side configuration
