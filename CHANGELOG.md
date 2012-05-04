@@ -1,8 +1,9 @@
 ## Changelog
 
 ### 2.1.1
+* Added new link icons for the Ajax badge
 * Code refactoring and reorganization
-* Fixed a bug that disabled redirects in profile downloads in PHP 5.4
+* Fixed a bug that disabled redirects for profile downloads in PHP 5.4
 * Fixed some minor bugs
 
 ### 2.0.2
@@ -43,9 +44,9 @@
 * Added an backpack icon to the slider menu that is linked to tf2items.com
 * Improved error handling and added fallback system for the XML proxy
 * Default cache time set to 10 min.
-* Optimized Java-Script code
+* Optimized JavaScript code
 * Added a client-side cache for duplicate profiles within one page
-* Profile IDs are now stored in the "title" attribute of the &lt;div&gt; so they're invisible to clients with deactivated Java-Script 
+* Profile IDs are now stored in the "title" attribute of the &lt;div&gt; so they're invisible to clients with deactivated JavaScript 
 
 ### 2.0 Beta 3
 * Added 'steamprofile.xml' for client-side configuration
