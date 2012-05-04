@@ -44,7 +44,7 @@ class ArrayConfig extends Config {
         return isset($this->aConfig[$sKey]) ? $this->aConfig[$sKey] : $sDefault;
     }
 
-    public function getStringAlnum($sKey, $sDefault = '') {
+    public function getStringAlnum($sKey, $sDefault = '', $iMaxLen = null) {
         $sString = $this->getString($sKey, $sDefault, $iMaxLen);
         
         if (!ctype_alnum($sString)) {

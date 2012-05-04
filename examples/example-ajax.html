@@ -1,35 +1,35 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>SteamProfile Example</title>
-	<!--
-	The following two lines are required for SteamProfile and must be included in <head>:
-	
-	1st line: SteamProfile uses jQuery, so you need to include the framework
-	2nd line: The SteamProfile script, must be included *after* jQuery! You can also use
-	          the minified steamprofile.min.js instead of steamprofile.js, which causes less traffic.
-	-->
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-	<script type="text/javascript" src="../ajax/steamprofile.js"></script>
-	<!--
-	Optional: override automatic detection of the SteamProfile base path by using this global variable.
-	
-	<script type="text/javascript">
-		spBasePath = 'steamprofile/ajax/';
-	</script>
-	-->
-</head>
-<body>
-	<!--
-	Each <div> with the class "steamprofile" will automatically be extended
-	with the profile for the ID set in "title".
-	The ID can be a generic Steam-ID (STEAM_x:x:xxxxxx), a Steam Community ID (Steam-ID 64) or the
-	Steam Community profile alias.
-	-->
-	<div class="steamprofile" title="76561197965018417"></div>
-	<div class="steamprofile" title="robinwalker"></div>
-	<div class="steamprofile" title="STEAM_0:0:148902"></div>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>SteamProfile Example</title>
+        <!--
+        The following two lines are required for SteamProfile and must be included in <head>:
+        
+        1st line: SteamProfile uses jQuery, so you need to include the framework
+        2nd line: The SteamProfile script, must be included *after* jQuery! You can also use
+                  the minified steamprofile.min.js instead of steamprofile.js, which causes less traffic.
+        -->
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script type="text/javascript" src="../ajax/steamprofile.js"></script>
+        <!--
+        Optional: override automatic detection of the SteamProfile base path by using this global variable.
+        
+        <script type="text/javascript">
+                spBasePath = 'steamprofile/ajax/';
+        </script>
+        -->
+    </head>
+    <body>
+        <!--
+        Each <div> with the class "steamprofile" will automatically be extended
+        with the profile for the ID set in "title".
+        The ID can be a generic Steam-ID (STEAM_x:x:xxxxxx), a Steam Community ID (Steam-ID 64) or the
+        Steam Community profile alias.
+        -->
+        <div class="steamprofile" title="76561197965018417"></div>
+        <div class="steamprofile" title="robinwalker"></div>
+        <div class="steamprofile" title="STEAM_0:0:148902"></div>
 	
 	<!--
 	When other scripts insert a profile placeholder, you need to call the
@@ -63,5 +63,5 @@
 	}
 	</script>
 	<div id="df_adder"><a href="javascript:addDF()">Add Drunken F00l!</a></div>
-</body>
+    </body>
 </html>
