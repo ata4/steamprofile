@@ -5,7 +5,7 @@
         The Theme used by SteamProfile. Must be the name of a folder inside
         the "ajax/themes/" folder.
         -->
-        <var name="theme">tf2maps</var>
+        <var name="theme">steam</var>
         <!--
         If set to true, the slider menu with icon links will be shown.
         -->
