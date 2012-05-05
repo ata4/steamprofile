@@ -20,7 +20,7 @@
 
 require_once 'lib/gd/GDImage.php';
 require_once 'lib/steamprofile/image/SteamProfileImageException.php';
-require_once 'lib/steamprofile/net/HTTPProfileLoader.php';
+require_once 'lib/steamprofile/net/SteamProfileLoader.php';
 
 class SteamProfileImage extends GDImage {
 
@@ -182,7 +182,7 @@ class SteamProfileImage extends GDImage {
         $iTimeout = $this->oCommonConfig->getInteger('downloader.timeout', 10);
 
         // load XML data
-        $XmlLoader = new HTTPProfileLoader($sUrl, SteamProfileApp::getUserAgent(), 'Image');
+        $XmlLoader = new SteamProfileLoader($sUrl, SteamProfileApp::getUserAgent(), 'Image');
         $XmlLoader->setTimeout($iTimeout);
         $XmlLoader->setFilterCtlChars(TRUE);
         $XmlLoader->setTrimExtra(FALSE);

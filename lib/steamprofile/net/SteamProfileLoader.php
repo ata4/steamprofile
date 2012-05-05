@@ -18,16 +18,24 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once 'lib/steamprofile/net/HTTPLoader.php';
+require_once 'lib/net/Curl.php';
+require_once 'lib/net/HTTPHeader.php';
 
-class HTTPProfileLoader extends HTTPLoader {
+class SteamProfileLoader extends Curl {
 
     private $bTrimExtra = FALSE;
     private $bFilterCtlChars = FALSE;
 
     public function __construct($sUrl, $sApp, $sExtra) {
-        parent::__construct($sUrl, $sApp, $sExtra);
+        parent::__construct($sUrl);
+        
+        $aCurlVersion = curl_version();
+        $sCurlVersion = $aCurlVersion['version'];
+        $sPHPVersion = PHP_VERSION;
+        
+        $this->setUserAgent("$sApp ($sExtra; PHP $sPHPVersion; cURL $sCurlVersion)");
         $this->setReturnTransfer(TRUE);
+        $this->setFollowLocation(TRUE);
     }
 
     public function setTrimExtra($bTrimExtra) {
@@ -48,6 +56,18 @@ class HTTPProfileLoader extends HTTPLoader {
 
     public function start() {
         $content = parent::start();
+
+        // FALSE means cURL failed
+        if ($content === FALSE) {
+            throw new Exception('cURL error: ' . $this->getErrorMessage());
+        }
+
+        // anything else than status code 2xx is most likely bad
+        $iHttpCode = $this->getHTTPCode();
+        
+        if ($iHttpCode < 200 || $iHttpCode > 299) {
+            throw new Exception('Server error: ' . HTTPHeader::getHTTPCodeString($iHttpCode));
+        }
 
         // check if the we actually downloaded anything
         if (strlen($content) == 0) {
@@ -72,8 +92,9 @@ class HTTPProfileLoader extends HTTPLoader {
 
             for ($i = 0; $i < 32; $i++) {
                 // tab, lf and cr are allowed
-                if ($i == 9 || $i == 10 || $i == 13)
+                if ($i == 9 || $i == 10 || $i == 13) {
                     continue;
+                }
                 $aCtlChr[] = chr($i);
             }
 
@@ -82,7 +103,5 @@ class HTTPProfileLoader extends HTTPLoader {
 
         return $content;
     }
-
 }
-
 ?>

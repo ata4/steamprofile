@@ -24,12 +24,7 @@
  * @author Nico Bergemann
  */
 class GDImage {
-
-    protected $rImage;
-    private $bAntiAlias = TRUE;
-    private $bAlphaBlending = TRUE;
-    private $bFullAlpha = FALSE;
-
+    
     public static function getInfo() {
         return gd_info();
     }
@@ -37,6 +32,11 @@ class GDImage {
     public static function isAvailable() {
         return extension_loaded('gd');
     }
+
+    protected $rImage;
+    private $bAntiAlias = TRUE;
+    private $bAlphaBlending = TRUE;
+    private $bFullAlpha = FALSE;
 
     protected static function convertBoundsToDim($aBounds) {
         $iMinX = min(array($aBounds[0], $aBounds[2], $aBounds[4], $aBounds[6]));

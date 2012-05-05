@@ -23,7 +23,7 @@ require_once 'lib/util/FileConfig.php';
 require_once 'lib/util/GPCConfig.php';
 require_once 'lib/net/HTTPHeader.php';
 require_once 'lib/steamprofile/SteamProfileApp.php';
-require_once 'lib/steamprofile/net/HTTPProfileLoader.php';
+require_once 'lib/steamprofile/net/SteamProfileLoader.php';
 require_once 'lib/steamprofile/ajax/XMLError.php';
 
 class SteamProfileXMLProxyApp extends SteamProfileApp implements Application {
@@ -59,7 +59,7 @@ class SteamProfileXMLProxyApp extends SteamProfileApp implements Application {
             if (!$oXmlFile->isCached()) {
                 try {
                     // initialize the downloader
-                    $oProfileLoader = new HTTPProfileLoader($sXmlUrl, SteamProfileApp::getUserAgent(), 'Ajax');
+                    $oProfileLoader = new SteamProfileLoader($sXmlUrl, SteamProfileApp::getUserAgent(), 'Ajax');
                     $oProfileLoader->setTimeout($iDownloaderTimeout);
                     $oProfileLoader->setTrimExtra(TRUE);
                     $oProfileLoader->setFilterCtlChars(TRUE);

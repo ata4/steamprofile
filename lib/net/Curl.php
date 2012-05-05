@@ -24,29 +24,54 @@
  * cURL object wrapper for basic downloading functions
  */
 class Curl {
+    
+    public static function isAvailable() {
+        return extension_loaded('curl');
+    }
 
-    private $rCurlSession;
+    private $rHandle;
     private $rOutputFile;
+    private $bManualFollow;
+    private $iMaxRedirs = 3;
 
-    public function __construct($sURL) {
+    public function __construct($url) {
         // make sure the cURL extension is loaded
         if (!self::isAvailable()) {
             throw new RuntimeException('cURL extension required');
         }
 
-        $this->rCurlSession = curl_init($sURL);
+        if ($url instanceof Curl) {
+            $this->rHandle = curl_copy_handle($url->rHandle);
+        } else {
+            $this->rHandle = curl_init($url);
+        }
     }
-
-    public static function isAvailable() {
-        return extension_loaded('curl') && function_exists('curl_init');
-    }
-
+    
     protected function setOption($iOpt, $value) {
-        curl_setopt($this->rCurlSession, $iOpt, $value);
+        $bOk = false;
+        
+        try {
+            $bOk = @curl_setopt($this->rHandle, $iOpt, $value);
+        } catch (Exception $e) {
+        }
+        
+        // CURLOPT_FOLLOWLOCATION can't be modified in all PHP configurations
+        if ($iOpt == CURLOPT_FOLLOWLOCATION && $value === TRUE && !$bOk) {
+            // we need to parse the 301/302 responses manually :(
+            $this->bManualFollow = true;
+            return true;
+        }
+        
+        // save CURLOPT_MAXREDIRS in case the above is true
+        if ($iOpt == CURLOPT_MAXREDIRS) {
+            $this->iMaxRedirs = $value;
+        }
+        
+        return $bOk;
     }
 
     protected function getInfo($iOpt) {
-        return curl_getinfo($this->rCurlSession, $iOpt);
+        return curl_getinfo($this->rHandle, $iOpt);
     }
 
     public function setOutputFile($file) {
@@ -86,23 +111,98 @@ class Curl {
     public function getHTTPCode() {
         return $this->getInfo(CURLINFO_HTTP_CODE);
     }
+    
+    public function hasError() {
+        return $this->getErrorCode() !== 0;
+    }
+    
+    public function getErrorCode() {
+        return curl_errno($this->rHandle);
+    }
 
     public function getErrorMessage() {
-        return curl_error($this->rCurlSession);
+        return curl_error($this->rHandle);
     }
 
     public function start() {
-        return curl_exec($this->rCurlSession);
+        // follow locations manually if PHP doesn't allow us to do so
+        if ($this->bManualFollow) {
+            $this->followLocation($this->iMaxRedirs);
+        }
+        
+        return curl_exec($this->rHandle);
     }
 
     public function close() {
-        curl_close($this->rCurlSession);
+        curl_close($this->rHandle);
 
         if (is_resource($this->rOutputFile)) {
             fclose($this->rOutputFile);
         }
     }
 
+    private function followLocation($iMaxRedirs) {
+        if ($iMaxRedirs <= 0) {
+            return;
+        }
+        
+        $sOrigUrl = $this->getInfo(CURLINFO_EFFECTIVE_URL);
+        $sNewUrl = $sOrigUrl;
+
+        $curl = $this->copy();
+        $curl->setOption(CURLOPT_HEADER, TRUE);
+        $curl->setOption(CURLOPT_NOBODY, TRUE);
+        $curl->setOption(CURLOPT_FORBID_REUSE, FALSE);
+        $curl->setOption(CURLOPT_RETURNTRANSFER, TRUE); 
+        
+        $aMatches = array();
+        $sError = NULL;
+        
+        while (TRUE) {
+            if ($iMaxRedirs-- < 0) {
+                $sError = "Too many redirects";
+                break;
+            }
+            
+            $curl->setOption(CURLOPT_URL, $sNewUrl);
+            $sHeader = $curl->start();
+
+            if ($curl->hasError()) {
+                $sError = "cURL error while following the location: " . $curl->getErrorMessage();
+                break;
+            }
+            
+            $iCode = $curl->getHTTPCode();
+            if ($iCode == 301 || $iCode == 302) {
+                if (!preg_match('/Location:(.*?)\n/', $sHeader, $aMatches)) {
+                    // can't find the location header, maybe it isn't a redirect?
+                    break;
+                }
+                
+                $sNewUrl = trim(array_pop($aMatches));
+
+                // if no scheme is present then the new url is a
+                // relative path and thus needs some extra care
+                if (!preg_match("/^https?:/i", $sNewUrl)) {
+                    $sNewUrl = $sOrigUrl . $sNewUrl;
+                }
+            } else {
+                break;
+            }
+        }
+
+        $curl->close();
+        
+        if ($sError != NULL) {
+            throw new Exception($sError);
+        }
+        
+        $this->setOption(CURLOPT_URL, $sNewUrl);
+    }
+
+    public function copy() {
+        return new Curl($this);
+    }
 }
 
 ?>

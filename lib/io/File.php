@@ -125,7 +125,7 @@ class File {
     }
 
     public function delete() {
-        return unlink($this->sPathName);
+        return file_exists($this->sPathName) ? unlink($this->sPathName) : false;
     }
 
     public function mkdir() {
