@@ -198,7 +198,7 @@ class SteamProfileImage extends GDImage {
         // do we already have a cached version of this image?
         if (!$cacheFile->isCached()) {
             $iTimeout = $this->oCommonConfig->getInteger('downloader.timeout', 10);
-            $imageLoader = new HTTPLoader($sUrl, SteamProfileApp::getUserAgent(), 'Image');
+            $imageLoader = new SteamProfileLoader($sUrl, SteamProfileApp::getUserAgent(), 'Image');
             $imageLoader->setTimeout($iTimeout);
             $imageLoader->setOutputFile($cacheFile->getPath());
             $imageLoader->start();
