@@ -145,3 +145,4 @@ class SteamProfileImageApp extends SteamProfileApp implements Application {
     }
 
 }
+?>
