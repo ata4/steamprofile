@@ -20,7 +20,7 @@
 
 // minimum required PHP version
 define('PHP_VERSION_REQUIRED', '5.1.0');
-// commend out or set to false in productive environments
+// comment out or set to false in productive environments
 define('DEBUG', false);
 
 // check for required PHP version 
