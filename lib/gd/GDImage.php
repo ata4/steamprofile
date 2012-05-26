@@ -34,9 +34,9 @@ class GDImage {
     }
 
     protected $rImage;
-    private $bAntiAlias = TRUE;
-    private $bAlphaBlending = TRUE;
-    private $bFullAlpha = FALSE;
+    private $bAntiAlias = true;
+    private $bAlphaBlending = true;
+    private $bFullAlpha = false;
 
     protected static function convertBoundsToDim($aBounds) {
         $iMinX = min(array($aBounds[0], $aBounds[2], $aBounds[4], $aBounds[6]));
@@ -75,7 +75,7 @@ class GDImage {
     }
     
     public function create($iWidth, $iHeight) {
-        $this->rImage = imagecreateTRUEcolor($iWidth, $iHeight);
+        $this->rImage = imagecreatetruecolor($iWidth, $iHeight);
     }
 
     public function destroy() {
@@ -90,11 +90,11 @@ class GDImage {
             } catch (Exception $ex) {
                 $this->rImage = null;
 
-                return FALSE;
+                return false;
             }
         }
 
-        return FALSE;
+        return false;
     }
 
     protected function replace(GDImage $image) {
@@ -211,7 +211,7 @@ class GDImage {
         return imagecopyresampled($this->rImage, $Image->rImage, $iX1, $iX2, $iY1, $iY2, $iDstWidth, $iDstHeight, $iWidth, $iHeight);
     }
 
-    public function scale($iWidthNew, $iHeightNew, $bResample = FALSE) {
+    public function scale($iWidthNew, $iHeightNew, $bResample = false) {
         $iWidth = $this->getWidth();
         $iHeight = $this->getHeight();
 
@@ -234,7 +234,7 @@ class GDImage {
         $this->replace($scaledImage);
     }
 
-    public function scaleByFactor($fFactor, $bResample = FALSE) {
+    public function scaleByFactor($fFactor, $bResample = false) {
         if ($fFactor == 1.0) {
             // haha, very funny
             return;
@@ -299,7 +299,7 @@ class GDImage {
         if (function_exists('imageantialias')) {
             return imageantialias($this->rImage, $this->bAntiAlias);
         } else {
-            return FALSE;
+            return false;
         }
     }
 
@@ -323,19 +323,19 @@ class GDImage {
         return $this->bFullAlpha;
     }
 
-    public function getColor($iR, $iG, $iB, $bAntiAlias = TRUE) {
+    public function getColor($iR, $iG, $iB, $bAntiAlias = true) {
         return imagecolorallocate($this->rImage, $iR, $iG, $iB) * ($bAntiAlias ? 1 : -1);
     }
 
-    public function getColorAlpha($iR, $iG, $iB, $iA, $bAntiAlias = TRUE) {
+    public function getColorAlpha($iR, $iG, $iB, $iA, $bAntiAlias = true) {
         return imagecolorallocatealpha($this->rImage, $iR, $iG, $iB, $iA) * ($bAntiAlias ? 1 : -1);
     }
 
-    public function getColorArray($aColor, $bAntiAlias = TRUE) {
+    public function getColorArray($aColor, $bAntiAlias = true) {
         return imagecolorallocate($this->rImage, $aColor[0], $aColor[1], $aColor[2]) * ($bAntiAlias ? 1 : -1);
     }
 
-    public function getColorHex($sColor, $bAntiAlias = TRUE) {
+    public function getColorHex($sColor, $bAntiAlias = true) {
         return $this->getColorArray(sscanf($sColor, '#%2x%2x%2x')) * ($bAntiAlias ? 1 : -1);
     }
 

@@ -70,15 +70,15 @@ class SteamID {
         // anything else than a number is invalid
         // (is_numeric() doesn't work for 64 bit integers)
         if (!preg_match('/^\d+$/i', $sSteamID64)) {
-            return FALSE;
+            return false;
         }
 
         // the community id must be bigger than STEAMID64_BASE
         if (bccomp(self::STEAMID64_U, $sSteamID64) == 1) {
-            return FALSE;
+            return false;
         }
 
-        return TRUE;
+        return true;
     }
 
     private function toSteamID64($sSteamID) {

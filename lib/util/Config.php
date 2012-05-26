@@ -25,7 +25,7 @@ abstract class Config {
 
     abstract public function getFloat($sKey, $fDefault = 0.0);
 
-    abstract public function getBoolean($sKey, $bDefault = FALSE);
+    abstract public function getBoolean($sKey, $bDefault = false);
 }
 
 ?>

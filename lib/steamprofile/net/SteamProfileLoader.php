@@ -23,8 +23,8 @@ require_once 'lib/net/HTTPHeader.php';
 
 class SteamProfileLoader extends Curl {
 
-    private $bTrimExtra = FALSE;
-    private $bFilterCtlChars = FALSE;
+    private $bTrimExtra = false;
+    private $bFilterCtlChars = false;
 
     public function __construct($sUrl, $sApp, $sExtra) {
         parent::__construct($sUrl);
@@ -34,8 +34,8 @@ class SteamProfileLoader extends Curl {
         $sPHPVersion = PHP_VERSION;
         
         $this->setUserAgent("$sApp ($sExtra; PHP $sPHPVersion; cURL $sCurlVersion)");
-        $this->setReturnTransfer(TRUE);
-        $this->setFollowLocation(TRUE);
+        $this->setReturnTransfer(true);
+        $this->setFollowLocation(true);
     }
 
     public function setTrimExtra($bTrimExtra) {
@@ -57,8 +57,8 @@ class SteamProfileLoader extends Curl {
     public function start() {
         $content = parent::start();
 
-        // FALSE means cURL failed
-        if ($content === FALSE) {
+        // false means cURL failed
+        if ($content === false) {
             throw new Exception('cURL error: ' . $this->getErrorMessage());
         }
 
@@ -79,7 +79,7 @@ class SteamProfileLoader extends Curl {
             $sEndToken = '</summary>';
             $iEndPos = strpos($content, $sEndToken);
 
-            if ($iEndPos !== FALSE) {
+            if ($iEndPos !== false) {
                 $content = substr($content, 0, $iEndPos + strlen($sEndToken));
                 $content.= "\n</profile>";
             }

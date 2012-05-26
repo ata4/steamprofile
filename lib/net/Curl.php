@@ -56,7 +56,7 @@ class Curl {
         }
         
         // CURLOPT_FOLLOWLOCATION can't be modified in all PHP configurations
-        if ($iOpt == CURLOPT_FOLLOWLOCATION && $value === TRUE && !$bOk) {
+        if ($iOpt == CURLOPT_FOLLOWLOCATION && $value === true && !$bOk) {
             // we need to parse the 301/302 responses manually :(
             $this->bManualFollow = true;
             return true;
@@ -150,15 +150,15 @@ class Curl {
         $sNewUrl = $sOrigUrl;
 
         $curl = $this->copy();
-        $curl->setOption(CURLOPT_HEADER, TRUE);
-        $curl->setOption(CURLOPT_NOBODY, TRUE);
-        $curl->setOption(CURLOPT_FORBID_REUSE, FALSE);
-        $curl->setOption(CURLOPT_RETURNTRANSFER, TRUE); 
+        $curl->setOption(CURLOPT_HEADER, true);
+        $curl->setOption(CURLOPT_NOBODY, true);
+        $curl->setOption(CURLOPT_FORBID_REUSE, false);
+        $curl->setOption(CURLOPT_RETURNTRANSFER, true); 
         
         $aMatches = array();
-        $sError = NULL;
+        $sError = null;
         
-        while (TRUE) {
+        while (true) {
             if ($iMaxRedirs-- < 0) {
                 $sError = "Too many redirects";
                 break;
@@ -193,7 +193,7 @@ class Curl {
 
         $curl->close();
         
-        if ($sError != NULL) {
+        if ($sError != null) {
             throw new Exception($sError);
         }
         

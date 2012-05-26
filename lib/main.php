@@ -20,8 +20,8 @@
 
 // minimum required PHP version
 define('PHP_VERSION_REQUIRED', '5.1.0');
-// commend out or set to FALSE in productive environments
-define('DEBUG', FALSE);
+// commend out or set to false in productive environments
+define('DEBUG', false);
 
 // check for required PHP version 
 if (version_compare(PHP_VERSION, PHP_VERSION_REQUIRED, '<')) {
@@ -35,7 +35,7 @@ function exception_error_handler($errno, $errstr, $errfile, $errline) {
 set_error_handler("exception_error_handler");
 
 // avoid tainted error messages
-ini_set('html_errors', FALSE);
+ini_set('html_errors', false);
 
 // set error reporting level
 if (defined('DEBUG') && DEBUG) {

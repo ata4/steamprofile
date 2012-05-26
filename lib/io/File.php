@@ -118,9 +118,9 @@ class File {
     public function renameTo($sNewPathName) {
         if (rename($this->sPathName, $sNewPathName)) {
             $this->sPathName = $sNewPathName;
-            return TRUE;
+            return true;
         } else {
-            return FALSE;
+            return false;
         }
     }
 

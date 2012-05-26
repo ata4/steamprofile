@@ -72,7 +72,7 @@ class ArrayConfig extends Config {
         return isset($this->aConfig[$sKey]) ? (float) $this->aConfig[$sKey] : $fDefault;
     }
 
-    public function getBoolean($sKey, $bDefault = FALSE) {
+    public function getBoolean($sKey, $bDefault = false) {
         return isset($this->aConfig[$sKey]) ? (bool) $this->aConfig[$sKey] : $bDefault;
     }
 
