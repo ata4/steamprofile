@@ -93,9 +93,9 @@ function SteamProfile() {
         jQuery.ajax({
             type: 'GET',
             url: basePath + configFile,
-            dataType: 'html',
-            complete: function(request, status) {
-                configData = $(request.responseXML);
+            dataType: 'xml',
+            success: function(request, status) {
+                configData = $(request);
                 loadConfig();
             }
         });
@@ -151,9 +151,9 @@ function SteamProfile() {
             type: 'GET',
             url: getXMLProxyURL(profileID),
             dataType: 'xml',
-            complete: function(request, status) {
+            success: function(request, status) {
                 // build profile and replace placeholder with profile
-                profile.empty().append(createProfile($(request.responseXML)));
+                profile.empty().append(createProfile($(request)));
             }
         });
         
@@ -192,9 +192,9 @@ function SteamProfile() {
         $('head').append('<link rel="stylesheet" type="text/css" href="' + themePath + 'style.css">');
         
         // load templates
-        profileTpl = $(configData.find('templates > profile').text());
-        loadingTpl = $(configData.find('templates > loading').text());
-        errorTpl   = $(configData.find('templates > error').text());
+        profileTpl = $(jQuery.parseHTML(configData.find('templates > profile').text()));
+        loadingTpl = $(jQuery.parseHTML(configData.find('templates > loading').text()));
+        errorTpl   = $(jQuery.parseHTML(configData.find('templates > error').text()));
         
         // add theme path to image src
         profileTpl.find('img').attrAppend('src', themePath);
@@ -228,9 +228,9 @@ function SteamProfile() {
                 type: 'GET',
                 url: getXMLProxyURL(profileID),
                 dataType: 'xml',
-                complete: function(request, status) {
+                success: function(request, status) {
                     // build profile and cache DOM for following IDs
-                    profileCache[profileID] = createProfile($(request.responseXML));
+                    profileCache[profileID] = createProfile($(request));
                     // replace placeholder with profile
                     profile.empty().append(profileCache[profileID]);
                     // load next profile
