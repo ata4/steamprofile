@@ -1,5 +1,8 @@
 ## Changelog
 
+### 2.1.2
+* Fixed broken support for jQuery 1.8 and above
+
 ### 2.1.1
 * Added new link icons for the Ajax badge
 * Code refactoring and reorganization
