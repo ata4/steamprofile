@@ -15,7 +15,7 @@
         <!--
         Optional: override automatic detection of the SteamProfile base path by using this global variable.
         
-        <script type="text/javascript">
+        <script>
                 spBasePath = 'steamprofile/ajax/';
         </script>
         -->
@@ -35,17 +35,17 @@
 	When other scripts insert a profile placeholder, you need to call the
 	"refresh"-method of the SteamProfile object to replace the placeholders.
 	-->
-	<script type="text/javascript">
-	function addGabe() {
-		// to avoid interferences, SteamProfile locks the loading of
-		// other profiles until the current query is finished
-		if(SteamProfile.isLocked()) {
-			return;
-		}
-		
-		$('#gabe_adder').replaceWith('<div class="steamprofile" title="gabelogannewell"></div>');
-		SteamProfile.refresh();
-	}
+	<script>
+            function addGabe() {
+                    // to avoid interferences, SteamProfile locks the loading of
+                    // other profiles until the current query is finished
+                    if(SteamProfile.isLocked()) {
+                            return;
+                    }
+
+                    $('#gabe_adder').replaceWith('<div class="steamprofile" title="gabelogannewell"></div>');
+                    SteamProfile.refresh();
+            }
 	</script>
 	<div id="gabe_adder"><a href="javascript:addGabe()">Add Gabe!</a></div>
 
@@ -53,14 +53,14 @@
 	You can also load single profiles directly with Java-Script by calling
 	the "load"-method.
 	-->
-	<script type="text/javascript">
-	function addDF() {
-			if(SteamProfile.isLocked()) {
-				return;
-			}
-			
-			$('#df_adder').replaceWith(SteamProfile.load('drunkenf00l'));
-	}
+	<script>
+            function addDF() {
+                            if(SteamProfile.isLocked()) {
+                                    return;
+                            }
+
+                            $('#df_adder').replaceWith(SteamProfile.load('drunkenf00l'));
+            }
 	</script>
 	<div id="df_adder"><a href="javascript:addDF()">Add Drunken F00l!</a></div>
     </body>
