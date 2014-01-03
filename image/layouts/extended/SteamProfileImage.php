@@ -254,6 +254,9 @@ class SteamProfileImage extends GDImage {
         $XmlLoader->setTrimExtra(false);
         $sXml = $XmlLoader->start();
         $XmlLoader->close();
+        
+        // kill invalid characters
+        $sXml = mb_convert_encoding($sXml, "UTF-8", "UTF-8");
 
         return simplexml_load_string($sXml);
     }
