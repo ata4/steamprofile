@@ -77,6 +77,8 @@ class SteamProfileXMLProxyApp extends SteamProfileApp implements Application {
 
                     // close cURL handle
                     $oProfileLoader->close();
+                    // kill invalid characters
+                    $sXml = mb_convert_encoding($sXml, "UTF-8", "UTF-8");
                     // save document to cache
                     $oXmlFile->writeString($sXml);
                     // clear stat cache to ensure that the rest of the
