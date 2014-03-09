@@ -1,6 +1,6 @@
 <IfModule mod_rewrite.c>
 RewriteEngine on
-RewriteRule (.+)/(.+)/(.+)\.png$ image.php?id=$3&layout=$1&theme=$2 [L]
-RewriteRule (.+)/(.+)\.png$ image.php?id=$2&layout=$1 [L]
-RewriteRule (.+)\.png$ image.php?id=$1 [L]
+RewriteRule image/(.+)/(.+)/(.+)\.png$ image.php?id=$3&layout=$1&theme=$2 [L]
+RewriteRule image/(.+)/(.+)\.png$ image.php?id=$2&layout=$1 [L]
+RewriteRule image/(.+)\.png$ image.php?id=$1 [L]
 </IfModule>
