@@ -259,7 +259,7 @@ class SteamProfileImage extends GDImage {
         $sXml = mb_convert_encoding($sXml, "UTF-8", "UTF-8");
         
         // Convert HTML entities to UTF-8
-        $sXml = mb_convert_encoding($sXml, "HTML-ENTITIES", "UTF-8");
+        $sXml = mb_convert_encoding($sXml, "UTF-8", "HTML-ENTITIES");
 
         return simplexml_load_string($sXml);
     }
