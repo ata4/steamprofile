@@ -1,7 +1,7 @@
 About SteamProfile
 ==================
 
-*TODO*
+SteamProfile is a simple renderer for Steam community profile badges. It supports both static images and dynamic HTML/JavaScript output.
 
 Installation and Usage
 ----------------------

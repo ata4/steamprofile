@@ -1,5 +1,10 @@
 ## Changelog
 
+### 2.1.3
+* Fixed encoding issues in rendered text with GD 2.1+
+* Fixed encoding issues with the legacy API
+* Added .htaccess with mod_rewrite rules for better URLs
+
 ### 2.1.2
 * Fixed broken support for jQuery 1.8 and above
 
